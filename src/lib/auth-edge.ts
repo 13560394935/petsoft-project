@@ -1,7 +1,5 @@
 import NextAuth, { NextAuthConfig } from "next-auth";
-// import prisma from "./db";
-import { PrismaClient } from "@prisma/client/edge";
-const prisma = new PrismaClient();
+import { getUserByEmail } from "./server-utils";
 
 export const nextAuthEdgeConfig = {
   pages: {
@@ -14,7 +12,7 @@ export const nextAuthEdgeConfig = {
   callbacks: {
     authorized: ({ auth, request }) => {
       const isLoggedIn = !!auth?.user;
-      const hasAccess = auth?.user.hasAccess;
+      const hasAccess = isLoggedIn && auth?.user.hasAccess;
       const isTryingToAccessApp = request.nextUrl.pathname.includes("/app");
 
       if (!isLoggedIn && isTryingToAccessApp) {
@@ -69,12 +67,7 @@ export const nextAuthEdgeConfig = {
       }
 
       if (trigger === "update") {
-        const latestUser = await prisma.user.findUnique({
-          where: {
-            email: token.email as string,
-          },
-        });
-        // const latestUser = await getUserByEmail(token.email as string);
+        const latestUser = await getUserByEmail(token.email as string);
         if (latestUser) {
           token.hasAccess = latestUser.hasAccess;
         }
