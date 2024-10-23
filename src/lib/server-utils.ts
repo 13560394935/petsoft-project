@@ -1,5 +1,4 @@
 import "server-only";
-
 import { Pet, User } from "@prisma/client";
 import prisma from "@/lib/db";
 

@@ -1,5 +1,8 @@
 import NextAuth, { NextAuthConfig } from "next-auth";
-import prisma from "./db";
+// import prisma from "./db";
+import { PrismaClient } from "@prisma/client/edge";
+const prisma = new PrismaClient();
+
 export const nextAuthEdgeConfig = {
   pages: {
     signIn: "/login",
