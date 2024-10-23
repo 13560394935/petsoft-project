@@ -5,7 +5,8 @@ import PetContextProvider from "@/contexts/pet-context-provider";
 import SearchContextProvider from "@/contexts/search-context-provider";
 import prisma from "@/lib/db";
 import { Toaster } from "sonner";
-import { checkAuth, getPetsByUserId } from "@/lib/server-utils";
+import { getPetsByUserId } from "@/lib/server-utils";
+import { checkAuth } from "@/lib/auth-no-edge";
 
 export default async function Layout({
   children,

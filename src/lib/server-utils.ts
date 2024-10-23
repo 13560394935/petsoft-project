@@ -1,18 +1,7 @@
 import "server-only";
 
-import { redirect } from "next/dist/client/components/navigation";
-import { auth } from "./auth";
 import { Pet, User } from "@prisma/client";
 import prisma from "@/lib/db";
-
-export async function checkAuth() {
-  const session = await auth();
-  if (!session?.user) {
-    redirect("/login");
-  }
-
-  return session;
-}
 
 export async function getUserByEmail(email: User["email"]) {
   const user = await prisma.user.findUnique({
